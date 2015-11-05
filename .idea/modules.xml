@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SmartWaterWatch.iml" filepath="$PROJECT_DIR$/.idea/SmartWaterWatch.iml" />
       <module fileurl="file://$PROJECT_DIR$/java-module/java-module.iml" filepath="$PROJECT_DIR$/java-module/java-module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/node-module/node-module.iml" filepath="$PROJECT_DIR$/node-module/node-module.iml" />
     </modules>
   </component>
 </project>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{SmartWaterWatch node_modules}" />
+    <file url="file://$PROJECT_DIR$" libraries="{Node.js v4.1.1 Core Modules, SmartWaterWatch node_modules}" />
+    <file url="file://$PROJECT_DIR$/node-module" libraries="{Node.js v4.1.1 Core Modules}" />
+    <includedPredefinedLibrary name="Node.js Globals" />
   </component>
 </project>
