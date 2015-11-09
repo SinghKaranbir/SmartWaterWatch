@@ -4,9 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 
 // require authenticate route
-var authenticate = require('./routes/authenticate');
+var authenticate = require('./routes/authenticate')(passport);
 
 var app = express();
 
@@ -26,7 +27,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
+
+// Intialize Passport
+var initPassport = require('./passport-init');
+initPassport(passport);
 // whenever somebody hits /auth route it to authenticate
 app.use('/auth',authenticate);
 
