@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost/demo-chirp');
 
 //import the routers
 var index = require('./routes/index');
-//var api = require('./routes/api');
+var api = require('./routes/api');
 var authenticate = require('./routes/authenticate')(passport);
 
 var app = express();
@@ -36,7 +36,7 @@ app.use(passport.session());
 
 //register routers to root paths
 app.use('/', index);
-//app.use('/api', api);
+app.use('/api', api);
 app.use('/auth', authenticate);
 
 //// Initialize Passport
