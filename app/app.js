@@ -4,17 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var bcrypt = require('bcrypt');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-//global.passport = passport;
 var session = require('express-session');
-var mongoose = require('mongoose');                         //add for Mongo support
-var models = require('./models/models.js');                 //mongoose schemas
-mongoose.connect('mongodb://localhost/demo-chirp');              //connect to Mongo
+var mongoose = require('mongoose');                         
+var models = require('./models/models.js');                 
+mongoose.connect('mongodb://localhost/demo-chirp');              
 
 //import the routers
-//var index = require('./routes/index');
+var index = require('./routes/index');
 //var api = require('./routes/api');
 var authenticate = require('./routes/authenticate')(passport);
 
@@ -38,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //register routers to root paths
-//app.use('/', index);
+app.use('/', index);
 //app.use('/api', api);
 app.use('/auth', authenticate);
 
