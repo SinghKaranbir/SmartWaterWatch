@@ -7,8 +7,28 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
 var mongoose = require('mongoose');                         
-var models = require('./models/models.js');                 
-mongoose.connect('mongodb://localhost/demo-chirp');              
+var models = require('./models/models.js');
+var mongo = process.env.VCAP_SERVICES;
+var conn_str = "";
+if (mongo) {
+  var env = JSON.parse(mongo);
+  if (env['mongodb-2.4']) {
+    mongo = env['mongodb-2.4'][0]['credentials'];
+    if (mongo.url) {
+      conn_str = mongo.url;
+    } else {
+      console.log("No mongo found");
+    }  
+  } else {
+    conn_str = 'mongodb://localhost:27017';
+  }
+} else {
+  conn_str = 'mongodb://localhost:27017';
+}
+
+console.log('Mongo URL: ' + conn_str);
+mongoose.connect(conn_str);    
+       
 
 //import the routers
 var index = require('./routes/index');

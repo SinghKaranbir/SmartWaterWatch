@@ -57,6 +57,7 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
 	};
 
 	$scope.register = function(){
+		console.log("Its running");
 		$http.post('/auth/signup', $scope.user).success(function(data){
 			if(data.state == 'success'){
 				$rootScope.authenticated = true;
