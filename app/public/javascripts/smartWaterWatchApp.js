@@ -1,4 +1,4 @@
-var app = angular.module('smartApp', ['ngRoute', 'ngResource']).run(function($http, $rootScope) {
+var app = angular.module('smartApp', ['ngRoute', 'ngMaterial']).run(function($http, $rootScope) {
 	$rootScope.authenticated = false;
 	$rootScope.current_user = 'Guest';
 
@@ -6,49 +6,51 @@ var app = angular.module('smartApp', ['ngRoute', 'ngResource']).run(function($ht
 		$http.get('auth/signout');
 		$rootScope.authenticated = false;
 		$rootScope.current_user = 'Guest';
+		$location.path('/');
 	};
 });
 
 app.config(function($routeProvider){
 	$routeProvider
-		
-		//the login display
-		.when('/login', {
-			templateUrl: 'login.html',
+
+		.when('/',{
+			templateUrl: 'main.html',
 			controller: 'authController'
 		})
-		//the signup display
-		.when('/register', {
-			templateUrl: 'register.html',
-			controller: 'authController'
-		});
+
+		
+		
 });
 
-/*
-//used for basic read from json
-app.factory('postService', function($http){
-	var baseUrl = "/api/posts";
-	var factory = {};
-	factory.getAll = function(){
-		return $http.get(baseUrl);
-	};
-	return factory;
-});
-*/
-app.factory('postService', function($resource){
-	return $resource('/api/posts/:id');
+app.config(function($mdThemingProvider){
+
+	$mdThemingProvider.theme('default')
+		.primaryPalette('indigo', {
+			'default': '400', // by default use shade 400 from the pink palette for primary intentions
+			'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+			'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+			'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+		})
+		// If you specify less than all of the keys, it will inherit from the
+		// default shades
+		.accentPalette('orange', {
+			'default': '200' // use shade 200 for default, and keep all other shades the same
+		});
+
+
+
 });
 
 app.controller('authController', function($scope, $http, $rootScope, $location){
-	$scope.user = {username: '', password: ''};
+	$scope.user = {email: '', password: '', firstName: '', lastName: ''};
 	$scope.error_message = '';
 
 	$scope.login = function(){
 		$http.post('/auth/login', $scope.user).success(function(data){
 			if(data.state == 'success'){
 				$rootScope.authenticated = true;
-				$rootScope.current_user = data.user.username;
-				$location.path('/');
+				$rootScope.current_user = data.user.firstName;
+				$location.path('/dashboard');
 			}
 			else{
 				$scope.error_message = data.message;
@@ -57,12 +59,11 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
 	};
 
 	$scope.register = function(){
-		console.log("Its running");
 		$http.post('/auth/signup', $scope.user).success(function(data){
 			if(data.state == 'success'){
 				$rootScope.authenticated = true;
-				$rootScope.current_user = data.user.username;
-				$location.path('/');
+				$rootScope.current_user = data.user.firstName;
+				$location.path('/dashboard');
 			}
 			else{
 				$scope.error_message = data.message;
@@ -70,3 +71,4 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
 		});
 	};
 });
+

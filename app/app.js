@@ -20,10 +20,10 @@ if (mongo) {
       console.log("No mongo found");
     }  
   } else {
-    conn_str = 'mongodb://localhost:27017';
+    conn_str = 'mongodb://localhost:27017/sww';
   }
 } else {
-  conn_str = 'mongodb://localhost:27017';
+  conn_str = 'mongodb://localhost:27017/sww';
 }
 
 console.log('Mongo URL: ' + conn_str);
