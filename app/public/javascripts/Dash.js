@@ -7,12 +7,12 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog',
  	$scope.menu = [
     {
       link : '',
-      title: 'Dashboard',
+      title: 'Water Bill Dashboard',
       icon: 'dashboard'
     },
     {
       link : '',
-      title: 'Friends',
+      title: 'Profile',
       icon: 'group'
     },
     {
@@ -80,7 +80,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog',
   $scope.showAdd = function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      template: '<md-dialog aria-label="Mango (Fruit)"> <md-content class="md-padding"> <form name="userForm"> <div layout layout-sm="column"> <md-input-container flex> <label>First Name</label> <input ng-model="user.firstName" placeholder="Placeholder text"> </md-input-container> <md-input-container flex> <label>Last Name</label> <input ng-model="theMax"> </md-input-container> </div> <md-input-container flex> <label>Address</label> <input ng-model="user.address"> </md-input-container> <div layout layout-sm="column"> <md-input-container flex> <label>City</label> <input ng-model="user.city"> </md-input-container> <md-input-container flex> <label>State</label> <input ng-model="user.state"> </md-input-container> <md-input-container flex> <label>Postal Code</label> <input ng-model="user.postalCode"> </md-input-container> </div> <md-input-container flex> <label>Biography</label> <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea> </md-input-container> </form> </md-content> <div class="md-actions" layout="row"> <span flex></span> <md-button ng-click="answer(\'not useful\')"> Cancel </md-button> <md-button ng-click="answer(\'useful\')" class="md-primary"> Save </md-button> </div></md-dialog>',
+      template: '<md-dialog aria-label="Mango (Fruit)"> <md-content class="md-padding"> <form name="userForm"> <div layout layout-sm="column"> <md-input-container flex> <label>Sensor Name</label> <input ng-model="user.sensorName" placeholder="Sensor Name"> </md-input-container>  <div class="md-actions" layout="row">    <md-input-container class="md-block"><label>Sensor Type</label><md-select name="myModel" ng-model="myModel" required=""><md-option value="1">Main Sensor</md-option><md-option value="2">Secondary Sensor</md-option></md-select><div class="errors" ng-messages="user.myModel.$error" ng-if="myForm.$dirty"><div ng-message="required">Required</div></div></md-input-container></div>  <div layout layout-sm="row"> <md-input-container flex> <label>Serial Number</label> <input ng-model="theMax" placeholder="Serial Number"> </md-input-container></div> <div layout layout-sm="row"><md-input-container class="md-block"><label>Sensor Type</label><md-select name="myModel" ng-model="myModel" required=""><md-option value="1">Main Sensor</md-option><md-option value="2">Secondary Sensor</md-option></md-select><div class="errors" ng-messages="myForm.myModel.$error" ng-if="myForm.$dirty"><div ng-message="required">Required</div></div></md-input-container></div> </form> </md-content> <div class="md-actions" layout="row"> <span flex></span> <md-button ng-click="answer(\'not useful\')"> Cancel </md-button> <md-button ng-click="answer(\'useful\')" class="md-primary"> Save </md-button> </div></md-dialog>',
       targetEvent: ev,
     })
     .then(function(answer) {
