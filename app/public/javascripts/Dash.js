@@ -136,7 +136,7 @@ app.config(function($mdThemingProvider) {
       'default': '500',
       'hue-1': '50'
     })
-    .accentPalette('pink');
+    .accentPalette('orange');
   $mdThemingProvider.theme('input', 'default')
         .primaryPalette('grey')
 });
