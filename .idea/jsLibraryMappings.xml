@@ -2,6 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{Node.js v4.1.1 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/app/public/index.html" libraries="{angular, angular-animate, angular-aria, angular-material, angular-material-DefinitelyTyped, angular-material-icons}" />
     <includedPredefinedLibrary name="Node.js Globals" />
   </component>
 </project>

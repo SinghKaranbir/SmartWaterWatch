@@ -18,24 +18,33 @@ app.config(function($routeProvider){
 			controller: 'authController'
 		})
 
-		
+		.when('/dashboard',{
+			templateUrl:'dashboard.html',
+			controller: 'dashboardController'
+		})
 		
 });
 
 app.config(function($mdThemingProvider){
 
 	$mdThemingProvider.theme('default')
-		.primaryPalette('indigo', {
-			'default': '400', // by default use shade 400 from the pink palette for primary intentions
-			'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-			'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-			'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+		.primaryPalette('light-blue', {
+			'default': '500',
+			'hue-1': '50',
+			'hue-2': '700',
+			'hue-3' : '300'
 		})
-		// If you specify less than all of the keys, it will inherit from the
-		// default shades
-		.accentPalette('orange', {
-			'default': '200' // use shade 200 for default, and keep all other shades the same
-		});
+		.accentPalette('light-blue', {
+			'default': 'A700' // use shade 200 for default, and keep all other shades the same
+		})
+		.backgroundPalette('grey');
+
+	$mdThemingProvider.theme('custom')
+		.primaryPalette('blue')
+		.accentPalette('orange')
+		.warnPalette('red');
+
+
 
 
 
@@ -71,4 +80,5 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
 		});
 	};
 });
+
 

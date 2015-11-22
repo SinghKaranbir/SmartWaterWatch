@@ -1,21 +1,43 @@
-<md-card layout-margin> 
-	<md-card-content layout="column" layout-align="center center">
-  	 	<form name="login-form" ng-submit="login()">
-  	 		<md-input-container>
-				<label>Username</label>
-				<input type="text" ng-model="user.username">
-			</md-input-container>
-					
-			<md-input-container>
-				<label>Password</label>
-				<input type="password" ng-model="user.password">
-			</md-input-container>
-		</form>
-    </md-card-content>
-    
-    <md-card-actions layout="row" layout-align="center center">
-        <md-button type="submit">Log in</md-button>
-   	</md-card-actions>
+
+
+
+<html>
+<head>
+	<title>Smart Water Watch</title>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+	<link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body ng-app="smartApp" layout="column" layout-align="center center">
+
+	<md-card>
+		<md-card-content>
+			<form name="login-form" ng-submit="login()">
+				<md-input-container>
+					<label>Username</label>
+					<input type="text" ng-model="user.username">
+				</md-input-container>
+
+				<md-input-container>
+					<label>Password</label>
+					<input type="password" ng-model="user.password">
+				</md-input-container>
+			</form>
+		</md-card-content>
+
+		<md-card-actions layout="row" layout-align="center center">
+			<md-button type="submit">Log in</md-button>
+		</md-card-actions>
 </md-card>
+<!-- Angular Material Dependencies -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+<script src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>
 
-
+<!-- Angular Material-->
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+<script src="javascripts/smartWaterWatchApp.js"></script>
+</body>
+</html>
