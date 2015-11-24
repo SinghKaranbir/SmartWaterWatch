@@ -1,19 +1,17 @@
 var mongoose = require('mongoose');   
 var User = mongoose.model('User');
 var LocalStrategy   = require('passport-local').Strategy;
-var bCrypt = require('bcrypt-nodejs');
+
 
 module.exports = function(passport){
 
   // Passport needs to be able to serialize and deserialize users to support persistent login sessions
   passport.serializeUser(function(user, done) {
-    console.log('serializing user:',user.username);
-    done(null, user._id);
+    done(null, user.id);
   });
 
   passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
-      console.log('deserializing user:',user.username);
       done(err, user);
     });
   });
@@ -22,7 +20,7 @@ module.exports = function(passport){
     // by default, local strategy uses username and password, we will override with email
         usernameField : 'email',
         passwordField : 'password',
-      passReqToCallback : true
+        passReqToCallback : true
     },
     function(req, email, password, done) { 
       // check in mongo if a user with username exists or not
@@ -34,22 +32,20 @@ module.exports = function(passport){
           // Username does not exist, log the error and redirect back
           if (!user){
             console.log('User Not Found with username '+ req.body.firstName);
-            return done(null, false);                 
+            return done(null, false, {message: 'Incorrect email.'});
           }
-          // User exists but wrong password, log the error 
-          if (!isValidPassword(user, password)){
-            console.log('Invalid Password');
-            return done(null, false); // redirect back to login page
-          }
-          // User and password both match, return user from done method
-          // which will be treated like success
-          return done(null, user);
-        }
-      );
-    }
-  ));
+          // User exists but wrong password, log the error
+          user.comparePassword(password, function(err, isMatch){
+            if(isMatch){
+              return done(null,user);
+            }else{
+              return done(null,false, {message: 'Incorrect Password'});
+            }
+          });
+        });
+    }));
 
-  passport.use('signup', new LocalStrategy({
+  /*passport.use('signup', new LocalStrategy({
 
      // by default, local strategy uses username and password, we will override with email
         usernameField : 'email',
@@ -90,14 +86,14 @@ module.exports = function(passport){
         }
       });
     })
-  );
+  );*/
   
-  var isValidPassword = function(user, password){
+ /* var isValidPassword = function(user, password){
     return bCrypt.compareSync(password, user.password);
   };
   // Generates hash using bCrypt
   var createHash = function(password){
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-  };
+  };*/
 
 };

@@ -1,4 +1,4 @@
-var app = angular.module('smartApp', ['ngRoute', 'ngMaterial']).run(function($http, $rootScope) {
+var app = angular.module('smartApp', ['userModule','ngRoute', 'ngMaterial', 'ngMessages']).run(function($http, $rootScope) {
 	$rootScope.authenticated = false;
 	$rootScope.current_user = 'Guest';
 
@@ -15,7 +15,7 @@ app.config(function($routeProvider){
 
 		.when('/',{
 			templateUrl: 'main.html',
-			controller: 'authController'
+			controller: 'UserCtrl'
 		})
 
 		.when('/dashboard',{
@@ -34,7 +34,7 @@ app.config(function($mdThemingProvider){
 			'hue-2': '700',
 			'hue-3' : '300'
 		})
-		.accentPalette('light-blue', {
+		.accentPalette('blue', {
 			'default': 'A700' // use shade 200 for default, and keep all other shades the same
 		})
 		.backgroundPalette('grey');
@@ -50,9 +50,12 @@ app.config(function($mdThemingProvider){
 
 });
 
-app.controller('authController', function($scope, $http, $rootScope, $location){
-	$scope.user = {email: '', password: '', firstName: '', lastName: ''};
-	$scope.error_message = '';
+app.controller('NavCtrl', function(){
+
+});
+/*app.controller('authController', function($scope, $http, $rootScope, $location){
+	//$scope.user = {email: '', password: '', firstName: '', lastName: ''};
+	//$scope.error_message = '';
 
 	$scope.login = function(){
 		$http.post('/auth/login', $scope.user).success(function(data){
@@ -79,6 +82,4 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
 			}
 		});
 	};
-});
-
-
+});*/
