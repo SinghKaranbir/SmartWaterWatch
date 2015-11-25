@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>Smart Water Watch</title>
+		<base href="/">
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">		
         <link rel="stylesheet" href="stylesheets/style.css">
 	</head>
@@ -8,103 +9,40 @@
 		<md-toolbar layout="row" layout-align="space-around center" layout-padding class="md-medium-tall md-whiteframe-4dp md-hue-2" ng-controller="NavCtrl">
 			<p id="title">SmartWaterWatch</p>
 			<span flex></span>
-			<form id="loginForm" layout="row" layout-align="space-around center" layout-wrap>
-				<md-input-container>
-					<label>Email</label>
-					<input ng-model="user.email" type="email" required>
-				</md-input-container>
-				<md-input-container>
-					<label>Password</label>
-					<input ng-model="user.password" type="password" required>
-				</md-input-container>
-				<md-button class="md-primary md-raised md-hue-4">
-					Login
-				</md-button>
-			</form>
-		</md-toolbar>
-		<div flex layout-margin="5dp" layout="row" md-theme="custom">
-
-			<md-content layout="column" flex hide-md hide-sm>
-				<img  ng-src="images/logo.jpg" class="md-card-image" layout-wrap>
-			</md-content>
-
-			<md-content layout="column" class="md-whiteframe-2dp" layout-padding flex ng-cloak>
-				<h2>Register</h2>
-				<p>Don't have an account</p>
-				<form name="registerForm" layout="column" layout-align="start center" ng-submit="register()">
-
-					<div layout layout-sm="column">
-						<md-input-container flex>
-							<label>First name</label>
-							<input name="firstName" ng-model="user.firstName" required >
-							<div ng-messages="registerForm.firstName.$error" ng-if='registerForm.firstName.$touched'>
-								<div ng-message="required">First Name is required.</div>
-							</div>
-						</md-input-container>
-						<md-input-container  flex>
-							<label>Last Name</label>
-							<input name="lastName" ng-model="user.lastName" required>
-							<div ng-messages="registerForm.lastName.$error" ng-if='registerForm.lastName.$touched'>
-								<div ng-message="required">Last Name is required.</div>
-							</div>
-						</md-input-container>
-					</div>
-
+				<form id="loginForm" layout="row" layout-align="space-around center" layout-wrap ng-submit="login()">
 					<md-input-container>
 						<label>Email</label>
-						<input name="email" ng-model="user.email" type="email" required>
-						<div ng-messages="registerForm.email.$error" ng-if='registerForm.email.$touched'>
-							<div ng-message="required">Email is required.</div>
-							<div ng-message="email">Your email address is invalid</div>
-						</div>
+						<input ng-model="user.email" type="email" required>
 					</md-input-container>
-					<div layout layout-sm="column">
-						<md-input-container flex>
-							<label>Password</label>
-							<input name="password" ng-model="user.password"  type="password" required>
-							<div ng-messages="registerForm.password.$error" ng-if='registerForm.password.$touched'>
-								<div ng-message="required">Password is required.</div>
-							</div>
-						</md-input-container>
-						<md-input-container flex>
-							<label>Confirm Password</label>
-							<input name="confirmPassword" ng-model="user.rePassword" type="password" required>
-							<div ng-messages="registerForm.confirmPassword.$error" ng-if='registerForm.confirmPassword.$touched'>
-								<div ng-message="required">Confirm Password is required.</div>
-								<div ng-message="password">Password's Does not Match</div>
-							</div>
-						</md-input-container>
-					</div>
-
 					<md-input-container>
-						<label>Phone Number</label>
-						<input name="phoneNumber" ng-model="user.phoneNumber" type="tel" required>
-						<div ng-messages="registerForm.phoneNumber.$error" ng-if='registerForm.phoneNumber.$touched'>
-							<div ng-message="required">Phone Number is required.</div>
-							<div ng-message="tel">Phone Number is invalid</div>
-						</div>
+						<label>Password</label>
+						<input ng-model="user.password" type="password" required>
 					</md-input-container>
-					<md-radio-group ng-model="user.gender" layout="row" required>
-						<md-radio-button value="male" class="md-primary" flex>Male</md-radio-button>
-						<md-radio-button value="female" flex>Female</md-radio-button>
-					</md-radio-group>
-					<md-button class="md-primary md-raised" ng-disabled="registerForm.$invalid">Register</md-button>
+					<md-button class="md-primary md-raised md-hue-4">
+						Login
+					</md-button>
+					<md-button class="md-button">
+						Forgot Password?
+					</md-button>
 				</form>
-			</md-content>
-		</div>
+		</md-toolbar>
 
+		<section>
+			<ui-view></ui-view>
+		</section>
 
 		<!-- Angular Material Dependencies -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-messages.js"></script>
+		<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
 		<!-- Angular Material-->
 		<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
 		<script src="javascripts/smartWaterWatchApp.js"></script>
 		<script src="javascripts/userModule.js"></script>
+		<script src="javascripts/dashboardModule.js"></script>
 	</body>
 </html>

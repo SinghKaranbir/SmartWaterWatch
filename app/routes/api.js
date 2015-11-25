@@ -171,5 +171,23 @@ var crypto = require('crypto');
                 res.redirect('/');
             });
         });
+    router.route("/verify/:token")
 
+        .get(function(req,res){
+
+            User.findOne({ verifyToken: req.params.token}, function(err, user) {
+
+                if (!user) {
+                    return res.redirect('/login',{status: 'failure', message:'Wrong Email'});
+                }
+
+                user.verify = true;
+
+                user.save(function(err) {
+                    if(err) console.log(err);
+                    return res.redirect('/login',{status: 'success', message:'Congrats!! your email has been verified. Please log in to continue'});
+                });
+
+            });
+        });
 module.exports = router;

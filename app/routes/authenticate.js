@@ -6,6 +6,7 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 module.exports = function(passport){
+
     // Login
     router.post('/login', function(req, res, next) {
         passport.authenticate('login', function(err, user, info) {
@@ -21,8 +22,8 @@ module.exports = function(passport){
         })(req, res, next);
     });
 
-    // Sign Up
 
+    //Registration of User.
     router.post('/register', function(req, res) {
 
         User.findOne({ 'email' :  req.body.email }, function(err, user) {
@@ -37,88 +38,61 @@ module.exports = function(passport){
                 console.log('User Already exists with email '+req.body.email);
                 return res.send({state: 'failure', message: 'User Already exists with email '+req.body.email});
             }else {
-                // if there is no user, create the user
-                var newUser = new User();
 
-                // set the user's local credentials
-                newUser.email = req.body.email;
-                newUser.password = req.body.password;
-                newUser.firstName = req.body.firstName;
-                newUser.lastName = req.body.lastName;
-                newUser.gender = req.body.gender;
-                newUser.phoneNumber = req.body.phoneNumber;
-                // save the user
-                newUser.save(function(err) {
-                    if (err){
-                        console.log('Error in Saving user: '+err);
-                        throw err;
+                async.waterfall([
+                    function (done) {
+                        crypto.randomBytes(20, function (err, buf) {
+                            var token = buf.toString('hex');
+                            done(err, token);
+                        });
+                    },
+                    function (token, done) {
+                        // if there is no user, create the user
+                        var newUser = new User();
+
+                        // set the user's local credentials
+                        newUser.email = req.body.email;
+                        newUser.password = req.body.password;
+                        newUser.firstName = req.body.firstName;
+                        newUser.lastName = req.body.lastName;
+                        newUser.gender = req.body.gender;
+                        newUser.phoneNumber = req.body.phoneNumber;
+                        newUser.verifyToken = token;
+
+                        newUser.save(function (err) {
+                            if (err) console.log(err);
+                            done(err, token, newUser);
+                        });
+                    },
+                    function (token, newUser, done) {
+                        var smtpTransport = nodemailer.createTransport('SMTP', {
+                            service: 'Gmail',
+                            auth: {
+                                user: 'feedback.onedeveloper@gmail.com',
+                                pass: 'karan1993'
+                            }
+                        });
+                        var mailOptions = {
+                            to: newUser.email,
+                            from: 'passwordreset@demo.com',
+                            subject: 'SmartWaterWatch Email verification',
+                            text: 'Thanks for Signing up on Smart Water Watch. Please Click on the below link to verify your email \n\n' +
+                            'http://' + req.headers.host + '/api/verify/' + token + '\n\n' +
+                            'If you did not sign up at Smart Water Watch, please ignore this email.\n'
+                        };
+                        smtpTransport.sendMail(mailOptions, function (err) {
+                            res.send({'status': 'success', 'message': 'Registration Successful'});
+                            done(err, 'done');
+                        });
                     }
-                    console.log(newUser.firstName + ' Registration successful');
-                    async.waterfall([
-                        function(done) {
-                            crypto.randomBytes(20, function(err, buf) {
-                                var token = buf.toString('hex');
-                                done(err, token);
-                            });
-                        },
-                        function(token, done) {
-
-                                newUser.verifyToken = token;
-
-                                newUser.save(function(err) {
-                                    done(err, token, newUser);
-                                });
-
-                        },
-                        function(token, newUser, done) {
-                            var smtpTransport = nodemailer.createTransport('SMTP', {
-                                service: 'Gmail',
-                                auth: {
-                                    user: 'feedback.onedeveloper@gmail.com',
-                                    pass: 'karan1993'
-                                }
-                            });
-                            var mailOptions = {
-                                to: newUser.email,
-                                from: 'passwordreset@demo.com',
-                                subject: 'Node.js Email verification',
-                                text: 'Thanks for Signing up on Smart Water Watch. Please Click on the below link to verify your email \n\n' +
-                                'http://' + req.headers.host + '/verify/' + token + '\n\n' +
-                                'If you did not sign up at Smart Water Watch, please ignore this email.\n'
-                            };
-                            smtpTransport.sendMail(mailOptions, function(err) {
-                                done(err, 'done');
-                            });
-                        }
-                    ], function(err) {
+                    ], function (err) {
                         if (err) console.log(err);
 
-                    });
-                    return res.send({state: 'success', message: 'Registration Successful'});
                 });
             }
         });
     });
 
-    router.route("/verify/:token")
-
-        .get(function(req,res){
-
-            User.findOne({ verifyToken: req.params.token}, function(err, user) {
-
-                if (!user) {
-                    return res.redirect('/login',{status: 'failure', message:'Wrong Email'});
-                }
-
-                user.verify = true;
-
-                user.save(function(err) {
-                    if(err) console.log(err);
-                    return res.redirect('/login',{status: 'success', message:'Congrats!! your email has been verified. Please log in to continue'});
-                });
-
-            });
-        })
     //log out
     router.get('/signout', function(req, res) {
         req.logout();

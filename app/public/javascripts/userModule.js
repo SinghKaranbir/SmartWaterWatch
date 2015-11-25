@@ -1,8 +1,6 @@
 /**
  * Created by karanbir on 23/11/15.
  */
-// TODO CREATE USER MODEL AND CONTROLLER
-
 angular.module('userModule',[])
 
 .config([function(){
@@ -52,7 +50,7 @@ angular.module('userModule',[])
 
                 scope.$watch(pwdFn, function(newVal) {
                     ngModelCtrl.$setValidity('password', ngModelCtrl.$viewValue == newVal);
-                })
+                });
 
                 ngModelCtrl.$validators.password = function(modelValue, viewValue) {
                     var value = modelValue || viewValue;
@@ -62,31 +60,35 @@ angular.module('userModule',[])
             }
         }
     })
-    .controller('UserCtrl', function($scope,User,$location,$http){
+    .controller('UserCtrl', function($scope,User,$location,$http,$mdToast){
         $scope.user = User.getUser();
         $scope.rePassword = User.getRePassword();
 
         $scope.login = function() {
+            console.log($scope.user);
             $http.post('/auth/login', $scope.user).success(function (data) {
-                if (data.state == 'success') {
-                    User.setAuthenticated(true);
+                if(data.state == 'success') {
                     $location.path('/dashboard');
+                    User.setAuthenticated(true);
+                    console.log(User.isAuthenticated());
                 }
                 else {
                     $scope.error_message = data.message;
+                    $mdToast.show($mdToast.simple().content($scope.error_message));
+                    console.log($scope.error_message);
                     User.setAuthenticated(false);
                 }
             });
         };
 
         $scope.register = function() {
-            console.log($scope.user);
             $http.post('/auth/register', $scope.user).success(function (data) {
                 if(data.state == 'success') {
                     console.log(data.message);
                     $location.path('/login');
                 }else{
                     $scope.error_message = data.message;
+                    $mdToast.show($mdToast.simple().content($scope.error_message));
                     console.log($scope.error_message);
                 }
             })

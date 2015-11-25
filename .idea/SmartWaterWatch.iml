@@ -13,5 +13,6 @@
     <orderEntry type="library" name="angular" level="application" />
     <orderEntry type="library" name="angular-material-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="angular-messages" level="application" />
+    <orderEntry type="library" name="angular-ui-router" level="application" />
   </component>
 </module>

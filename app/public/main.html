@@ -1,56 +1,70 @@
-<section layout="row" layout-sm="column" layout-fill>
+<div flex layout-margin="5dp" layout="row" md-theme="custom">
 
-    <div layout="column" layout-align="center center" flex layout-padding>
-        <p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam. Ne deleniti appetere reprimique pro, inani labitur disputationi te sed. At vix sale omnesque, id pro labitur reformidans accommodare, cum labores honestatis eu. Nec quem lucilius in, eam praesent reformidans no. Sed laudem aliquam ne.</p>
-        <p>
-            Facete delenit argumentum cum at. Pro rebum nostrum contentiones ad. Mel exerci tritani maiorum at, mea te audire phaedrum, mel et nibh aliquam. Malis causae equidem vel eu. Noster melius vis ea, duis alterum oporteat ea sea. Per cu vide munere fierent.
-        </p>
-        <p>
-            Ad sea dolor accusata consequuntur. Sit facete convenire reprehendunt et. Usu cu nonumy dissentiet, mei choro omnes fuisset ad. Te qui docendi accusam efficiantur, doming noster prodesset eam ei. In vel posse movet, ut convenire referrentur eum, ceteros singulis intellegam eu sit.
-        </p>
-        <p>
-            Sit saepe quaestio reprimique id, duo no congue nominati, cum id nobis facilisi. No est laoreet dissentias, idque consectetuer eam id. Clita possim assueverit cu his, solum virtute recteque et cum. Vel cu luptatum signiferumque, mel eu brute nostro senserit. Blandit euripidis consequat ex mei, atqui torquatos id cum, meliore luptatum ut usu. Cu zril perpetua gubergren pri. Accusamus rationibus instructior ei pro, eu nullam principes qui, reque justo omnes et quo.
-        </p>
+    <md-content layout="column" flex hide-md hide-sm>
+        <img  ng-src="images/logo.jpg" class="md-card-image" layout-wrap>
+    </md-content>
 
+    <md-content layout="column" class="md-whiteframe-2dp" layout-padding flex ng-cloak>
+        <h2>Register</h2>
+        <p>Don't have an account</p>
+        <form name="registerForm" layout="column" layout-align="start center" ng-submit="register()">
 
-    </div>
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label>First name</label>
+                    <input name="firstName" ng-model="user.firstName" required >
+                    <div ng-messages="registerForm.firstName.$error" ng-if='registerForm.firstName.$touched'>
+                        <div ng-message="required">First Name is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container  flex>
+                    <label>Last Name</label>
+                    <input name="lastName" ng-model="user.lastName" required>
+                    <div ng-messages="registerForm.lastName.$error" ng-if='registerForm.lastName.$touched'>
+                        <div ng-message="required">Last Name is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
 
-    <form name="registerForm" layout="column" layout-align="center center" flex layout-padding ng-submit="register()">
-    <p class="text-warning">{{error_message}}</p>
-        <div layout layout-sm="row">
-            <md-input-container flex>
-                <label>First name</label>
-                <input ng-model="user.firstName">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Last Name</label>
-                <input ng-model="user.lastName">
-            </md-input-container>
-        </div>
-
-        <div layout="column" >
-            <md-input-container flex>
+            <md-input-container>
                 <label>Email</label>
-                <input ng-model="user.email" type="email" required>
+                <input name="email" ng-model="user.email" type="email" required>
+                <div ng-messages="registerForm.email.$error" ng-if='registerForm.email.$touched'>
+                    <div ng-message="required">Email is required.</div>
+                    <div ng-message="email">Your email address is invalid</div>
+                </div>
             </md-input-container>
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label>Password</label>
+                    <input name="password" ng-model="user.password"  type="password" required>
+                    <div ng-messages="registerForm.password.$error" ng-if='registerForm.password.$touched'>
+                        <div ng-message="required">Password is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Confirm Password</label>
+                    <input name="confirmPassword" ng-model="user.rePassword" type="password" required>
+                    <div ng-messages="registerForm.confirmPassword.$error" ng-if='registerForm.confirmPassword.$touched'>
+                        <div ng-message="required">Confirm Password is required.</div>
+                        <div ng-message="password">Password's Does not Match</div>
+                    </div>
+                </md-input-container>
+            </div>
 
-            <md-input-container flex>
-                <label>Password</label>
-                <input ng-model="user.password" type="password" required>
+            <md-input-container>
+                <label>Phone Number</label>
+                <input name="phoneNumber" ng-model="user.phoneNumber" type="tel" required>
+                <div ng-messages="registerForm.phoneNumber.$error" ng-if='registerForm.phoneNumber.$touched'>
+                    <div ng-message="required">Phone Number is required.</div>
+                    <div ng-message="tel">Phone Number is invalid</div>
+                </div>
             </md-input-container>
-
-            <md-input-container flex>
-                <label>Retype Password</label>
-                <input ng-model="rePassword" type="password" required>
-            </md-input-container>
-        </div>
-
-        <md-button class="md-primary md-raised">Register</md-button>
-
-
-
-    </form>
-
-
-
-</section>
+            <md-radio-group ng-model="user.gender" layout="row" required>
+                <md-radio-button value="male" class="md-primary" flex>Male</md-radio-button>
+                <md-radio-button value="female" flex>Female</md-radio-button>
+            </md-radio-group>
+            <md-button class="md-primary md-raised" ng-disabled="registerForm.$invalid">Register</md-button>
+        </form>
+    </md-content>
+</div>

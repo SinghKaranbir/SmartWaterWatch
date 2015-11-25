@@ -1,4 +1,4 @@
-var app = angular.module('smartApp', ['userModule','ngRoute', 'ngMaterial', 'ngMessages']).run(function($http, $rootScope) {
+var app = angular.module('smartApp', ['userModule','dashboardModule','ui.router', 'ngMaterial', 'ngMessages']).run(function($http, $rootScope) {
 	$rootScope.authenticated = false;
 	$rootScope.current_user = 'Guest';
 
@@ -9,20 +9,22 @@ var app = angular.module('smartApp', ['userModule','ngRoute', 'ngMaterial', 'ngM
 		$location.path('/');
 	};
 });
-
-app.config(function($routeProvider){
-	$routeProvider
-
-		.when('/',{
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider){
+	$stateProvider
+		.state('index', {
+			url: '/index',
 			templateUrl: 'main.html',
 			controller: 'UserCtrl'
 		})
+		.state('index.dashboard',{
+			url:'/dashboard',
+			templateUrl: 'dashboard.html',
+			controller: 'dashboardCtrl'
+		});
 
-		.when('/dashboard',{
-			templateUrl:'dashboard.html',
-			controller: 'dashboardController'
-		})
-		
+	$urlRouterProvider.when('', '/index');
+	// use the HTML5 History API
+	$locationProvider.html5Mode(true);
 });
 
 app.config(function($mdThemingProvider){
@@ -53,33 +55,4 @@ app.config(function($mdThemingProvider){
 app.controller('NavCtrl', function(){
 
 });
-/*app.controller('authController', function($scope, $http, $rootScope, $location){
-	//$scope.user = {email: '', password: '', firstName: '', lastName: ''};
-	//$scope.error_message = '';
 
-	$scope.login = function(){
-		$http.post('/auth/login', $scope.user).success(function(data){
-			if(data.state == 'success'){
-				$rootScope.authenticated = true;
-				$rootScope.current_user = data.user.firstName;
-				$location.path('/dashboard');
-			}
-			else{
-				$scope.error_message = data.message;
-			}
-		});
-	};
-
-	$scope.register = function(){
-		$http.post('/auth/signup', $scope.user).success(function(data){
-			if(data.state == 'success'){
-				$rootScope.authenticated = true;
-				$rootScope.current_user = data.user.firstName;
-				$location.path('/dashboard');
-			}
-			else{
-				$scope.error_message = data.message;
-			}
-		});
-	};
-});*/
