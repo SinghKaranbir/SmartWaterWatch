@@ -1,0 +1,41 @@
+<form name="registerForm" md-theme="custom" layout-padding>
+
+    <div layout layout-sm="column">
+        <md-input-container flex>
+            <label>First name</label>
+            <input name="firstName" ng-model="profile.user.firstName" required ng-disabled="!viewMode">
+            <div ng-messages="registerForm.firstName.$error" ng-if='registerForm.firstName.$touched'>
+                <div ng-message="required">First Name is required.</div>
+            </div>
+        </md-input-container>
+        <md-input-container  flex>
+            <label>Last Name</label>
+            <input name="lastName" ng-model="profile.user.lastName" required ng-disabled="!viewMode">
+            <div ng-messages="registerForm.lastName.$error" ng-if='registerForm.lastName.$touched'>
+                <div ng-message="required">Last Name is required.</div>
+            </div>
+        </md-input-container>
+    </div>
+
+    <md-input-container>
+        <label>Email</label>
+        <input name="email" ng-model="profile.user.email" type="email" required ng-disabled="true">
+        <div ng-messages="registerForm.email.$error" ng-if='registerForm.email.$touched'>
+            <div ng-message="required">Email is required.</div>
+            <div ng-message="email">Your email address is invalid</div>
+        </div>
+    </md-input-container>
+
+    <md-input-container>
+        <label>Phone Number</label>
+        <input name="phoneNumber" ng-model="profile.user.phoneNumber" type="tel" required ng-disabled="!viewMode">
+        <div ng-messages="registerForm.phoneNumber.$error" ng-if='registerForm.phoneNumber.$touched'>
+            <div ng-message="required">Phone Number is required.</div>
+            <div ng-message="tel">Phone Number is invalid</div>
+        </div>
+    </md-input-container>
+
+    <div layout="column" layout-align="center center">
+        <md-button class="md-primary md-raised" ng-click="edit()" ng-hide="viewMode">Edit</md-button>
+    </div>
+</form>

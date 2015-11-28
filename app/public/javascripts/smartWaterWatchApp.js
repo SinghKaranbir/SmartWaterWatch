@@ -1,4 +1,4 @@
-var app = angular.module('smartApp', ['userModule','dashboardModule','ui.router', 'ngMaterial', 'ngMessages']).run(function($http, $rootScope) {
+var app = angular.module('smartApp', ['userModule','dashboardModule','ui.router', 'ngMaterial', 'ngMessages','chart.js']).run(function($http, $rootScope) {
 	$rootScope.authenticated = false;
 	$rootScope.current_user = 'Guest';
 
@@ -9,22 +9,55 @@ var app = angular.module('smartApp', ['userModule','dashboardModule','ui.router'
 		$location.path('/');
 	};
 });
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider){
+app.config(function ($stateProvider, $urlRouterProvider){
 	$stateProvider
-		.state('index', {
-			url: '/index',
-			templateUrl: 'main.html',
-			controller: 'UserCtrl'
+
+		.state('index',{
+			url:'/index',
+
+			views: {
+				'' : { templateUrl: 'main.html',
+						controller: 'UserCtrl'},
+				'toolbar': {
+					templateUrl : '/partials/toolbar.html',
+					controller: 'ToolbarCtrl',
+					controllerAs: 'toolbar'
+				}
+			}
 		})
-		.state('index.dashboard',{
+
+		.state('dashboard',{
 			url:'/dashboard',
-			templateUrl: 'dashboard.html',
-			controller: 'dashboardCtrl'
+
+			views: {
+				'' : { templateUrl: 'dashboard.html'},
+				'toolbar': {
+					templateUrl : '/partials/toolbar.html',
+					controller : 'ToolbarCtrl',
+					controllerAs : 'toolbar'
+				}
+			}
+
+		})
+
+		.state('dashboard.home',{
+			url:'/home',
+			templateUrl: '/partials/home.html'
+		})
+		.state('dashboard.profile',{
+			url:'/profile',
+			templateUrl: '/partials/profile.html',
+			controller: 'ProfileCtrl',
+			controllerAs : 'profile'
+		})
+		.state('dashboard.manage_sensors',{
+			url:'/manage-sensors',
+			templateUrl:'/partials/manage_sensors.html'
 		});
 
+
+
 	$urlRouterProvider.when('', '/index');
-	// use the HTML5 History API
-	$locationProvider.html5Mode(true);
 });
 
 app.config(function($mdThemingProvider){
@@ -47,12 +80,18 @@ app.config(function($mdThemingProvider){
 		.warnPalette('red');
 
 
-
-
-
 });
 
-app.controller('NavCtrl', function(){
 
+app.controller("LineCtrl", function ($scope) {
+
+	$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+	$scope.series = ['Series A', 'Series B'];
+	$scope.data = [
+		[65, 59, 80, 81, 56, 55, 40],
+		[28, 48, 40, 19, 86, 27, 90]
+	];
+	$scope.onClick = function (points, evt) {
+		console.log(points, evt);
+	};
 });
-

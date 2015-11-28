@@ -3,11 +3,11 @@
  */
 angular.module('userModule',[])
 
-.config([function(){
+    .config([function(){
         console.log("User Module : config");
     }])
-.run([function(){
-    console.log("User Module : running");
+    .run([function(){
+        console.log("User Module : running");
     }])
     .factory('User', function(){
 
@@ -27,6 +27,9 @@ angular.module('userModule',[])
             getUser: function(){
                 return user;
             },
+            setUser: function(newUser){
+                user = newUser;
+            },
             getRePassword: function(){
                 return rePassword;
             },
@@ -34,7 +37,7 @@ angular.module('userModule',[])
                 return Authenticated;
             },
             setAuthenticated : function(value){
-             Authenticated = value;
+                Authenticated = value;
             }
         };
 
@@ -60,15 +63,15 @@ angular.module('userModule',[])
             }
         }
     })
-    .controller('UserCtrl', function($scope,User,$location,$http,$mdToast){
+    .controller('UserCtrl', function($scope,User,$state,$http,$mdToast){
         $scope.user = User.getUser();
         $scope.rePassword = User.getRePassword();
 
         $scope.login = function() {
-            console.log($scope.user);
             $http.post('/auth/login', $scope.user).success(function (data) {
                 if(data.state == 'success') {
-                    $location.path('/dashboard');
+                    $state.go('dashboard');
+                    User.setUser(data.user);
                     User.setAuthenticated(true);
                     console.log(User.isAuthenticated());
                 }
@@ -94,5 +97,11 @@ angular.module('userModule',[])
             })
         };
 
+        $scope.logout = function(){
+            $http.get('auth/signout');
+            User.setUser(null);
+            User.setAuthenticated(false);
+            $state.go('index');
+        }
 
     });
