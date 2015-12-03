@@ -4,7 +4,8 @@
 angular.module('smartApp')
     .controller('ProfileCtrl', ProfileCtrl);
 
-function ProfileCtrl($scope, User){
+function ProfileCtrl($scope,$http, User){
+    this.user = User.getUser();
 
     $scope.viewMode = false;
 
@@ -12,9 +13,17 @@ function ProfileCtrl($scope, User){
         console.log('iam edit');
         $scope.viewMode = true;
     };
-    console.log(User.getUser());
-    this.user = User.getUser();
 
-    console.log(User.isAuthenticated());
+    $scope.save = function(){
+        console.log("I am save");
+        $http.put("/auth/update",this.user).success(function(data){
+            console.log(data);
+        });
+        $scope.viewMode = false;
+    };
 
+    $scope.cancel = function(){
+        console.log('iam cancel');
+        $scope.viewMode = false;
+    };
 }

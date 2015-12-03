@@ -31,6 +31,7 @@ mongoose.connect(conn_str);
        
 
 //import the routers
+var sensor = require('./routes/sensor');
 var index = require('./routes/index');
 var api = require('./routes/api');
 var authenticate = require('./routes/authenticate')(passport);
@@ -58,7 +59,7 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/api', api);
 app.use('/auth', authenticate);
-
+app.use('/sensor', sensor);
 //// Initialize Passport
 var initPassport = require('./passport-init');
 initPassport(passport);

@@ -77,25 +77,4 @@ var SensorData = mongoose.model('SensorData');
             });
         });
 
-    router.route('/data:sensorId')
-
-        .get(function (req,res) {
-
-           SensorData.findOne({ 'sensorId' : req.body.sensorId}, function(err, sensorData){
-
-               if(err) console.log(err);
-
-               if(!sensorData){
-                   return res.send({'status': 'failure', message: 'No Sensor Registered with this serial name'});
-               }
-
-               return res.send({'status' : 'success', 'data': sensorData.data});
-
-
-
-           });
-
-
-
-        });
-
+module.exports = router;

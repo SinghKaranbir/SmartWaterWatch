@@ -14,6 +14,10 @@ module.exports = function(passport){
             if (err) { return next(err); }
 
             if (!user) { return res.send({state: 'failure', user: null, message: info.message}); }
+            if(!user.verified) { return res.send({state: 'failure', user: null, message: 'Please verify your email to continue'}); }
+
+
+
 
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
@@ -55,7 +59,11 @@ module.exports = function(passport){
                         newUser.password = req.body.password;
                         newUser.firstName = req.body.firstName;
                         newUser.lastName = req.body.lastName;
-                        newUser.gender = req.body.gender;
+                        newUser.address = req.body.address;
+                        newUser.address2 = req.body.address2;
+                        newUser.userType = req.body.userType;
+                        newUser.city = req.body.city;
+                        newUser.state = req.body.state;
                         newUser.phoneNumber = req.body.phoneNumber;
                         newUser.verifyToken = token;
 
@@ -66,27 +74,27 @@ module.exports = function(passport){
                     },
                     function (token, newUser, done) {
                         var smtpTransport = nodemailer.createTransport('SMTP', {
-                            service: 'Gmail',
+                            service: 'hotmail',
                             auth: {
-                                user: 'feedback.onedeveloper@gmail.com',
+                                user: 'er.karanbirsingh@outlook.com',
                                 pass: 'karan1993'
                             }
                         });
                         var mailOptions = {
                             to: newUser.email,
                             from: 'passwordreset@demo.com',
-                            subject: 'SmartWaterWatch Email verification',
-                            text: 'Thanks for Signing up on Smart Water Watch. Please Click on the below link to verify your email \n\n' +
+                            subject: 'SensorBook Email verification',
+                            text: 'Thanks for Signing up on SensorBook. Please Click on the below link to verify your email \n\n' +
                             'http://' + req.headers.host + '/api/verify/' + token + '\n\n' +
-                            'If you did not sign up at Smart Water Watch, please ignore this email.\n'
+                            'If you did not sign up at SensorBook, please ignore this email.\n'
                         };
                         smtpTransport.sendMail(mailOptions, function (err) {
-                            res.send({'status': 'success', 'message': 'Registration Successful'});
+                            res.send({'status': 'success', 'message': 'Registration Successful, Please verify your email and Login.'});
                             done(err, 'done');
                         });
                     }
-                    ], function (err) {
-                        if (err) console.log(err);
+                ], function (err) {
+                    if (err) console.log(err);
 
                 });
             }
@@ -99,6 +107,32 @@ module.exports = function(passport){
         res.redirect('/');
     });
 
+    //Update the user values
+    router.route('/update')
+
+        .put(function(req,res){
+            User.findById(req.user.id, function(err, user){
+                if(!user){
+                    return res.send({state: 'failure', user: null, message: "No User with that email" + req.body.email});
+                }else{
+                    user.password= req.body.password;
+                    user.firstName = req.body.firstName;
+                    user.lastName = req.body.lastName;
+                    user.address = req.body.address;
+                    user.address2 = req.body.address2;
+                    user.city = req.body.city;
+                    user.state = req.body.state;
+                    user.phoneNumber = req.body.phoneNumber;
+
+                    // save the user
+                    user.save(function(err) {
+                        if (err)
+                            console.log(err);
+                        return res.send({state: 'success', message: "Successfully Updated"})
+                    });
+                }
+            });
+        });
     return router;
 
-}
+};

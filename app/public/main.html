@@ -13,12 +13,12 @@
     <md-content layout="column" class="md-whiteframe-2dp" layout-padding flex ng-cloak>
         <h2>Register</h2>
         <p>Don't have an account</p>
-        <form name="registerForm" layout="column" layout-align="start center" ng-submit="register()">
+        <form name="registerForm" layout="column"  ng-submit="register()">
 
             <div layout layout-sm="column">
                 <md-input-container flex>
                     <label>First name</label>
-                    <input name="firstName" ng-model="user.firstName" required >
+                    <input name="firstName" ng-model="user.firstName" type="text" required >
                     <div ng-messages="registerForm.firstName.$error" ng-if='registerForm.firstName.$touched'>
                         <div ng-message="required">First Name is required.</div>
                     </div>
@@ -66,11 +66,14 @@
                     <div ng-message="tel">Phone Number is invalid</div>
                 </div>
             </md-input-container>
-            <md-radio-group ng-model="user.gender" layout="row" required>
-                <md-radio-button value="male" class="md-primary" flex>Male</md-radio-button>
-                <md-radio-button value="female" flex>Female</md-radio-button>
-            </md-radio-group>
-            <md-button class="md-primary md-raised" ng-disabled="registerForm.$invalid">Register</md-button>
+
+            <div layout="column" layout-align="center center">
+                <md-radio-group ng-model="user.gender" layout="row" required>
+                    <md-radio-button value="male" class="md-primary" flex>Male</md-radio-button>
+                    <md-radio-button value="female" flex>Female</md-radio-button>
+                </md-radio-group>
+                 <md-button class="md-primary md-raised" ng-disabled="registerForm.$invalid">Register</md-button>
+            </div>
         </form>
     </md-content>
 </div>

@@ -1,38 +1,26 @@
-var app = angular.module('smartApp', ['userModule','dashboardModule','ui.router', 'ngMaterial', 'ngMessages','chart.js']).run(function($http, $rootScope) {
-	$rootScope.authenticated = false;
-	$rootScope.current_user = 'Guest';
+var app = angular.module('smartApp', ['userModule','dashboardModule','ui.router', 'ngMaterial', 'ngMessages','chart.js']);
 
-	$rootScope.signout = function(){
-		$http.get('auth/signout');
-		$rootScope.authenticated = false;
-		$rootScope.current_user = 'Guest';
-		$location.path('/');
-	};
-});
 app.config(function ($stateProvider, $urlRouterProvider){
 	$stateProvider
 
 		.state('index',{
 			url:'/index',
-
 			views: {
 				'' : { templateUrl: 'main.html',
-						controller: 'UserCtrl'},
+					controller: 'UserCtrl'},
 				'toolbar': {
-					templateUrl : '/partials/toolbar.html',
+					templateUrl : '/views/toolbar.html',
 					controller: 'ToolbarCtrl',
-					controllerAs: 'toolbar'
-				}
+					controllerAs:'toolbar'				}
 			}
 		})
-
 		.state('dashboard',{
 			url:'/dashboard',
 
 			views: {
 				'' : { templateUrl: 'dashboard.html'},
 				'toolbar': {
-					templateUrl : '/partials/toolbar.html',
+					templateUrl : '/views/toolbar.html',
 					controller : 'ToolbarCtrl',
 					controllerAs : 'toolbar'
 				}
@@ -42,19 +30,51 @@ app.config(function ($stateProvider, $urlRouterProvider){
 
 		.state('dashboard.home',{
 			url:'/home',
-			templateUrl: '/partials/home.html'
+			templateUrl: '/views/home.html'
 		})
 		.state('dashboard.profile',{
 			url:'/profile',
-			templateUrl: '/partials/profile.html',
+			templateUrl: '/views/profile.html',
 			controller: 'ProfileCtrl',
-			controllerAs : 'profile'
+			controllerAs: 'profile'
 		})
 		.state('dashboard.manage_sensors',{
 			url:'/manage-sensors',
-			templateUrl:'/partials/manage_sensors.html'
-		});
+			templateUrl:'/views/manage_sensors.html'
+		})
 
+		.state('login',{
+			url:'/login',
+			data:'login',
+			views: {
+				'': {
+					templateUrl: '/views/login.html',
+					controller: 'UserCtrl'
+				},
+				'toolbar': {
+					templateUrl : '/views/toolbar.html',
+					controller: 'ToolbarCtrl',
+					controllerAs:'toolbar'
+
+				}
+			}
+		})
+		.state('forgot',{
+			url:'/forgot',
+			data: 'forgot',
+			views: {
+				'' : {
+					templateUrl: '/views/forgot.html',
+					controller: 'UserCtrl'
+				},
+				'toolbar': {
+					templateUrl : 'views/toolbar.html',
+					controller:'ToolbarCtrl',
+					controllerAs:'toolbar'
+
+				}
+			}
+		});
 
 
 	$urlRouterProvider.when('', '/index');

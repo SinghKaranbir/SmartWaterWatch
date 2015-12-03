@@ -1,7 +1,10 @@
 <md-toolbar layout="row" layout-align="space-around center" layout-padding class="md-medium-tall md-whiteframe-4dp md-hue-2" ng-controller="UserCtrl">
-    <p id="title">SmartWaterWatch</p>
-    <span flex></span>
-    <form id="loginForm" layout="row" layout-align="space-around center" layout-wrap ng-submit="login()" ng-hide="toolbar.isAuthenticated" >
+    <p id="title" ng-hide="toolbar.isLoginOrForgot">SmartWaterWatch</p>
+    <span flex ng-if="!(toolbar.isLoginOrForgot)"></span>
+    <div layout row layout-align="center center" ng-show="toolbar.isLoginOrForgot">
+        <p>SmartWaterWatch</p>
+    </div>
+    <form id="loginForm" layout="row" layout-align="space-around center" layout-wrap ng-submit="login()" ng-hide="toolbar.isAuthenticated || toolbar.isLoginOrForgot" >
         <md-input-container>
             <label>Email</label>
             <input ng-model="user.email" type="email" required>
@@ -13,10 +16,10 @@
         <md-button class="md-primary md-raised md-hue-4">
             Login
         </md-button>
-        <md-button class="md-button">
-            Forgot Password?
-        </md-button>
     </form>
+    <md-button class="md-button" ng-click="forgot()" ng-hide="toolbar.isAuthenticated || toolbar.isLoginOrForgot">
+        Forgot Password?
+    </md-button>
 
     <div layout="row" layout-align="space-around center" ng-show="toolbar.isAuthenticated">
         <p>Welcome <span ng-bind="toolbar.user.firstName"></span> </p>
